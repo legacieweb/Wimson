@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wimson - Digital eBook Store</title>       
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5402/5402751.png" type="image/png" sizes="16x16">
+    <script src="https://cdn.tailwindcss.com"></script>      
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        .shaking-logo { animation: shake 1s infinite ease-in-out; }
+        @keyframes shake { 0%, 100% { transform: rotate(0deg); } 10%, 30%, 50%, 70%, 90% { transform: rotate(-2deg); } 20%, 40%, 60%, 80% { transform: rotate(2deg); } }
+        /* Preloader animation */
+    @keyframes fadeInScale {
+        0% { opacity: 0; transform: scale(0.8); }
+        50% { opacity: 1; transform: scale(1.05); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    .animate-fadeInScale {
+        animation: fadeInScale 1.5s ease-in-out forwards;
+    }
+
+    /* Smooth fade-out */
+    .fade-out {
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+    }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 shadow-md fixed w-full top-0 left-0 z-50">
+        <div class="container mx-auto flex justify-between items-center relative">
+            <h1 class="text-2xl font-bold">
+                <span class="text-yellow-400">Wim</span><span class="text-white">son</span>
+            </h1>
+            <nav>
+                <a href="cart.html" class="hover:underline"> 🛒(<span id="cart-count">0</span>)</a>
+                <a href="contact.html" class="hover:underline">contact us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-blue-500 text-white py-20 text-center pt-28">
+        <h2 class="text-4xl font-bold">Discover Your Next Favorite Book</h2>
+        <p class="mt-4 text-lg">Browse our collection of amazing eBooks and start reading instantly.</p>
+        <a href="#products" class="mt-6 inline-block bg-white text-blue-600 px-6 py-2 rounded-full font-bold">
+            Browse eBooks
+        </a>
+    </section>
+
+    <!-- Product Section -->
+    <section id="products" class="container mx-auto py-12">
+        <h2 class="text-3xl font-bold text-center mb-6">Our eBooks</h2>
+        <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white text-center py-3">
+        <div class="container mx-auto flex flex-col items-center px-6">
+            <a href="about.html" class="text-blue-500 hover:underline mb-2">About Us</a>
+            <p class="text-gray-500 text-sm mt-2">© 2025 Wimson. All Rights Reserved.</p>
+            <div class="flex items-center space-x-2 mt-3">
+                <a href="https://legacieweb.github.io/legacieweb/">
+                    <img src="download-removebg-preview.png" alt="Legacie Web Logo" class="h-10 md:h-12 shaking-logo">
+                </a>
+                <a href="https://legacieweb.github.io/legacieweb/" class="text-blue-500 text-sm md:text-base">
+                    Powered by Legacie
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add this popup inside the body -->
+    <div id="cart-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center w-80 relative">
+            <h3 id="popup-message" class="text-lg font-semibold mb-4"></h3>
+            
+            <div class="flex justify-center space-x-4">
+                <button onclick="redirectToCart()" class="bg-blue-600 text-white px-4 py-2 rounded">View Cart</button>
+                <button onclick="closePopup()" class="bg-gray-400 text-white px-4 py-2 rounded">Add More Books</button>
+            </div>
+
+            <!-- Close button (X) -->
+            <button onclick="closePopup()" class="absolute top-2 right-3 text-xl text-gray-600">&times;</button>
+        </div>
+    </div>
+<!-- Preloader (Add this just after <body> tag) -->
+    <div id="preloader" class="fixed inset-0 bg-blue-600 flex items-center justify-center z-50">
+        <h1 class="text-4xl font-bold opacity-0 scale-75 text-center text-white animate-fadeInScale">
+            <span class="text-yellow-400">Wim</span><span class="text-white">son</span>
+        </h1>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Sample eBook Data
+        const books = [
+            { title: "Work-life balance", price: 12.99, image: "pexels-gabby-k-9488845.jpg" },
+            { title: "Carrer planning", price: 9.99, image: "pexels-divinetechygirl-1181533.jpg" },
+            { title: "Effective communications", price: 10.99, image: "pexels-fauxels-3184285.jpg" },
+            { title: "Daily planning", price: 9.99, image: "pexels-karolina-grabowska-5387247.jpg" },
+            { title: "Strategic self-reflection", price: 10.99, image: "pexels-vlada-karpovich-6202991.jpg" },
+            { title: "Time management", price: 9.99, image: "pexels-diimejii-2853664.jpg" },
+            { title: "Morning Yoga", price: 10.99, image: "pexels-ivan-samkov-7900277.jpg" },
+            { title: "Self leadership", price: 10.99, image: "pexels-karolina-grabowska-8528744.jpg" },
+            { title: "Setting and achieving goals", price: 8.99, image: "pexels-tiger-lily-7108959.jpg" }
+        ];
+
+        // Display Products
+        function loadProducts() {
+            const productList = document.getElementById("product-list");
+            productList.innerHTML = books.map((book, index) => `
+            <div class="bg-white p-4 shadow-md rounded-lg text-center">
+                <img src="${book.image}" alt="${book.title}" class="w-full h-48 object-cover rounded">
+                <h3 class="text-xl font-bold mt-4">${book.title}</h3>
+                <p class="text-gray-600 mt-2">$${book.price.toFixed(2)}</p>
+                <button onclick="addToCart(${index})" class="mt-4 bg-blue-400 text-white px-4 py-2 rounded w-full">
+                Buy Now
+                </button>
+
+                <!-- WhatsApp Contact -->
+                <div class="mt-4 font-semibold">
+                <a href="https://wa.me/+254742606408" target="_blank" class="inline-flex items-center space-x-2 text-green-500">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="w-8 h-8">
+                    <span>Inquire Via WhatsApp</span>
+                </a>
+                </div>
+
+                <!-- GroupMe Contact -->
+                <div class="mt-4 font-semibold">
+                <a href="https://groupme.com/contact/129369620/npy0DZEM" target="_blank" class="inline-flex items-center space-x-2 text-blue-500">
+                    <img src="https://cdn-icons-png.flaticon.com/128/1384/1384056.png" alt="GroupMe" class="w-8 h-8">
+                    <span>Contact Me on GroupMe</span>
+                </a>
+                </div>
+            </div>
+            `).join("");
+        }
+
+        // Add to Cart
+        function addToCart(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push(books[index]);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+
+            // Update popup message
+            document.getElementById('popup-message').innerText = `${books[index].title} added to cart!`;
+
+            // Show popup
+            let popup = document.getElementById('cart-popup');
+            popup.classList.remove('hidden');
+
+            // Add event listeners for closing popup when clicking outside or scrolling
+            setTimeout(() => {
+                document.addEventListener("click", outsideClick);
+                document.addEventListener("scroll", closePopup);
+            }, 100);
+        }
+
+        function redirectToCart() {
+            window.location.href = "cart.html";
+        }
+
+        function closePopup() {
+            let popup = document.getElementById('cart-popup');
+            popup.classList.add('hidden');
+
+            // Remove event listeners to prevent multiple bindings
+            document.removeEventListener("click", outsideClick);
+            document.removeEventListener("scroll", closePopup);
+        }
+
+        function outsideClick(event) {
+            let popupContent = document.querySelector("#cart-popup div");
+            if (!popupContent.contains(event.target)) {
+                closePopup();
+            }
+        }
+
+        // Update Cart Count
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        // Initialize Page
+        document.addEventListener("DOMContentLoaded", () => {
+            loadProducts();
+            updateCartCount();
+        });
+            // Hide preloader when page fully loads
+    window.addEventListener("load", function() {
+        let preloader = document.getElementById("preloader");
+        preloader.classList.add("fade-out");
+        setTimeout(() => { preloader.style.display = "none"; }, 500);
+    });
+    </script>
+
+</body>
+</html>

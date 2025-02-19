@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Wimson</title>
+
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5402/5402751.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Shaking Logo Animation */
+        .shaking-logo {
+            animation: shake 1s infinite ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            10%, 30%, 50%, 70%, 90% { transform: rotate(-2deg); }
+            20%, 40%, 60%, 80% { transform: rotate(2deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 shadow-md fixed w-full top-0 left-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">
+                <span class="text-yellow-400">Wim</span><span class="text-white">son</span>
+            </h1>
+            <nav>
+                <a href="index.html" class="hover:underline">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Checkout Section -->
+    <main class="container mx-auto py-24 px-6">
+        <h2 class="text-3xl font-bold text-center mb-6">Checkout</h2>
+
+        <div class="bg-white p-6 shadow-md rounded-lg max-w-lg mx-auto">
+            <!-- Billing Details -->
+            <h3 class="text-xl font-semibold mb-4">Billing Details</h3>
+
+            <label class="block mb-2">Full Name:</label>
+            <input id="full-name" type="text" class="w-full p-2 border rounded mb-4" placeholder="John Doe" required>
+
+            <label class="block mb-2">Email:</label>
+            <input id="email" type="email" class="w-full p-2 border rounded mb-4" placeholder="johndoe@example.com" required>
+
+            <label class="block mb-2">Address:</label>
+            <input id="address" type="text" class="w-full p-2 border rounded mb-4" placeholder="123 University St, USA" required>
+
+            <!-- Order Summary -->
+            <h3 class="text-xl font-semibold mt-6 mb-4">Order Summary</h3>
+            <div id="cart-summary" class="text-gray-700 mb-4"></div>
+            <p class="text-lg font-bold mb-4" id="total-amount">Total: $0</p>
+
+            <!-- Payment Button -->
+            <button id="pay-btn" onclick="payWithPaystack()" class="hidden bg-green-600 text-white px-4 py-2 rounded w-full">
+                Pay Now
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white text-center py-3">
+        <div class="container mx-auto flex flex-col items-center px-6">
+            <p class="text-gray-500 text-sm mt-2">© 2025 Wimson. All Rights Reserved.</p>
+
+            <!-- Powered by Legacie -->
+            <div class="flex items-center space-x-2 mt-3">
+                <a href="https://legacieweb.github.io/legacieweb/">
+                    <img src="download-removebg-preview.png" alt="Legacie Web Logo" class="h-10 md:h-12 shaking-logo">
+                </a>
+                <a href="https://legacieweb.github.io/legacieweb/" class="text-blue-500 text-sm md:text-base">
+                    Powered by Legacie
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Paystack Integration -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script>
+        function loadCheckout() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let total = 0;
+            let cartSummaryDiv = document.getElementById('cart-summary');
+
+            cartSummaryDiv.innerHTML = "";
+
+            if (cart.length === 0) {
+                cartSummaryDiv.innerHTML = "<p class='text-red-500 text-center'>Your cart is empty.</p>";
+                document.getElementById('pay-btn').classList.add("hidden");
+                document.getElementById('total-amount').textContent = `Total: $0`;
+                return;
+            }
+
+            cart.forEach((item) => {
+                total += item.price * (item.quantity || 1);
+                cartSummaryDiv.innerHTML += `
+                    <div class="flex justify-between border-b py-2">
+                        <span>${item.title} (x${item.quantity || 1})</span>
+                        <span class="font-bold">$${(item.price * (item.quantity || 1)).toFixed(2)}</span>
+                    </div>
+                `;
+            });
+
+            document.getElementById('total-amount').textContent = `Total: $${total.toFixed(2)}`;
+            document.getElementById('pay-btn').classList.remove("hidden");
+        }
+
+        function payWithPaystack() {
+            let total = JSON.parse(localStorage.getItem('cart'))?.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0) || 0;
+            let email = document.getElementById("email").value;
+            let fullName = document.getElementById("full-name").value;
+            let address = document.getElementById("address").value;
+
+            if (!email || !fullName || !address) {
+                alert("Please fill in all billing details before proceeding.");
+                return;
+            }
+
+            let handler = PaystackPop.setup({
+                key: 'pk_live_a6b7c419a6d954c0369d95ee21d751f9c2cdb16b', 
+                email: email,
+                amount: total * 100,  
+                currency: 'USD',
+                callback: function(response) {
+                    alert(`Payment Successful! Transaction ID: ${response.reference}`);
+                    localStorage.removeItem('cart'); 
+                    window.location.href = "index.html";
+                }
+            });
+            handler.openIframe();
+        }
+
+        document.addEventListener("DOMContentLoaded", loadCheckout);
+    </script>
+
+</body>
+</html>

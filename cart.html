@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Wimson</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5402/5402751.png" type="image/png" sizes="16x16">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Shaking Logo Animation */
+        .shaking-logo {
+            animation: shake 1s infinite ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            10%, 30%, 50%, 70%, 90% { transform: rotate(-2deg); }
+            20%, 40%, 60%, 80% { transform: rotate(2deg); }
+        }
+
+        /* Sticky Footer Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 shadow-md fixed w-full top-0 left-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">
+                <span class="text-yellow-400">Wim</span><span class="text-white">son</span>
+            </h1>
+            <nav>
+                <a href="index.html" class="hover:underline">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="container mx-auto py-16 mt-12">
+        <h2 class="text-2xl font-bold text-center mb-6">Your Cart</h2>
+        <div id="cart-items" class="bg-white p-6 shadow-md rounded-lg"></div>
+
+        <div class="mt-6 text-right">
+            <p class="text-lg font-bold" id="total-price">Total: $0</p>
+            <a href="checkout.html" class="bg-green-600 text-white px-4 py-2 rounded">Proceed to Checkout</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white text-center py-3">
+        <div class="container mx-auto flex flex-col items-center px-6">
+            <p class="text-gray-500 text-sm mt-2">© 2025 Wimson. All Rights Reserved.</p>
+
+            <!-- Powered by Legacie -->
+            <div class="flex items-center space-x-2 mt-3">
+                <a href="https://legacieweb.github.io/legacieweb/">
+                    <img src="download-removebg-preview.png" alt="Legacie Web Logo" class="h-10 md:h-12 shaking-logo">
+                </a>
+                <a href="https://legacieweb.github.io/legacieweb/" class="text-blue-500 text-sm md:text-base">
+                    Powered by Legacie
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cartItemsDiv = document.getElementById('cart-items');
+            let total = 0;
+            cartItemsDiv.innerHTML = "";
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                cartItemsDiv.innerHTML += `
+                    <div class="p-4 border-b">
+                        <h3 class="text-lg font-bold">${item.title}</h3>
+                        <p>$${item.price.toFixed(2)}</p>
+                        <button onclick="removeFromCart(${index})" class="mt-2 bg-red-600 text-white px-4 py-2 rounded">Remove</button>
+                    </div>
+                `;
+            });
+
+            document.getElementById('total-price').textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        loadCart();
+    </script>
+
+</body>
+</html>
