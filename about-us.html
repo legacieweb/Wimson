@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Wimson</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .shaking-logo { animation: shake 1s infinite ease-in-out; }
+        @keyframes shake { 0%, 100% { transform: rotate(0deg); } 10%, 30%, 50%, 70%, 90% { transform: rotate(-2deg); } 20%, 40%, 60%, 80% { transform: rotate(2deg); } }
+        /* Preloader animation */
+    @keyframes fadeInScale {
+        0% { opacity: 0; transform: scale(0.8); }
+        50% { opacity: 1; transform: scale(1.05); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    .animate-fadeInScale {
+        animation: fadeInScale 1.5s ease-in-out forwards;
+    }
+
+    /* Smooth fade-out */
+    .fade-out {
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+    }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">
+                <span class="text-yellow-400">Wim</span><span class="text-white">son</span>
+            </h1>
+            <nav>
+                <a href="index.html" class="mx-2">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- About Us Section -->
+    <section class="container mx-auto py-12">
+        <div class="bg-white p-8 shadow-md rounded-lg max-w-4xl mx-auto">
+            <h3 class="text-3xl font-semibold mb-4 text-center">Empowering Minds, One eBook at a Time</h3>
+            <p class="text-lg text-gray-700 mb-4">
+                Welcome to <strong>Wimson</strong>, your go-to digital marketplace for high-quality <strong>eBooks across various categories</strong>. Whether you're a <strong>student</strong>, a <strong>professional</strong>, an <strong>entrepreneur</strong>, or an <strong>avid reader</strong>, we provide <strong>instant access</strong> to knowledge, creativity, and learning resources.
+            </p>
+            
+            <h4 class="text-2xl font-semibold mt-6 mb-4">Our Mission</h4>
+            <p class="text-lg text-gray-700 mb-4">
+                At Wimson, we <strong>believe in the power of knowledge</strong> and aim to make <strong>educational, professional, and leisure reading materials</strong> accessible to everyone. We strive to:
+            </p>
+            <ul class="list-disc ml-6 text-lg text-gray-700 mb-4">
+                <li>Offer <strong>affordable digital books</strong> across multiple genres.</li>
+                <li>Provide <strong>instant downloads</strong> for seamless access to learning materials.</li>
+                <li>Support <strong>authors, educators, and creators</strong> by offering a platform to share their content.</li>
+                <li>Promote <strong>continuous learning and self-improvement</strong> for all individuals.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold mt-6 mb-4">What We Offer</h4>
+            <p class="text-lg text-gray-700 mb-4">
+                Wimson is more than just an eBook store – it’s a <strong>hub of knowledge and creativity</strong>. Our platform offers:
+            </p>
+            <ul class="list-disc ml-6 text-lg text-gray-700 mb-4">
+                <li><strong>Diverse eBook Collection:</strong> Explore books on education, business, technology, self-development, fiction, and more.</li>
+                <li><strong>Instant Access:</strong> Purchase and download your eBooks instantly – no waiting, no delays.</li>
+                <li><strong>Secure Transactions:</strong> Your payments are safe with our trusted payment gateways.</li>
+                <li><strong>Exclusive Content:</strong> Access unique books not found on other platforms.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold mt-6 mb-4">Who Can Benefit from Wimson?</h4>
+            <p class="text-lg text-gray-700 mb-4">
+                Our eBooks cater to a <strong>wide audience</strong>, including:
+            </p>
+            <ul class="list-disc ml-6 text-lg text-gray-700 mb-4">
+                <li><strong>Students & Educators:</strong> Find study guides, reference materials, and learning resources.</li>
+                <li><strong>Professionals & Entrepreneurs:</strong> Access business, finance, and career development books.</li>
+                <li><strong>Book Lovers & Casual Readers:</strong> Enjoy fiction, self-help, and creative writing eBooks.</li>
+                <li><strong>Researchers & Scholars:</strong> Gain insights from various academic and technical publications.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold mt-6 mb-4">Why Choose Wimson?</h4>
+            <p class="text-lg text-gray-700 mb-4">
+                We differentiate ourselves by offering:
+            </p>
+            <ul class="list-disc ml-6 text-lg text-gray-700 mb-4">
+                <li><strong>Wide Range of Topics:</strong> Covering everything from academics to leisure reading.</li>
+                <li><strong>High-Quality & Verified Content:</strong> Every book is reviewed to ensure quality.</li>
+                <li><strong>Affordable Prices:</strong> Learning should not be expensive – we keep costs low.</li>
+                <li><strong>Convenience & Flexibility:</strong> Access your books anytime, anywhere, on any device.</li>
+                <li><strong>Customer Support:</strong> Our team is ready to assist you with any questions or issues.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold mt-6 mb-4">Join Wimson Today</h4>
+            <p class="text-lg text-gray-700 mb-4">
+                Whether you're looking to <strong>expand your knowledge, enhance your skills, or enjoy a great read</strong>, Wimson is here for you. Start exploring today and find the perfect eBook for your journey!
+            </p>
+
+        </div>
+    </section>
+
+      <!-- Footer -->
+      <footer class="bg-gray-900 text-white text-center py-6">
+        <div class="container mx-auto flex flex-col items-center px-4 sm:px-6 md:px-8">
+            
+            <!-- Navigation Links -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4 text-sm sm:text-base">
+                <a href="contact-us.html" class="text-blue-500 hover:underline">Contact Us</a>
+                <a href="about-us.html" class="text-blue-500 hover:underline">About Us</a>
+                <a href="privacy-policy.html" class="text-blue-500 hover:underline">Privacy Policy</a>
+                <a href="terms-of-service.html" class="text-blue-500 hover:underline">Terms Of Service</a>
+            </div>
+
+            <!-- Copyright Text -->
+            <p class="text-gray-500 text-xs sm:text-sm mt-2">© 2025 Wimson. All Rights Reserved.</p>
+
+            <!-- Powered by Legacie -->
+            <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3 mt-4">
+                <a href="https://legacieweb.github.io/legacieweb/" class="flex items-center space-x-2">
+                    <img src="download-removebg-preview.png" alt="Legacie Web Logo" class="h-8 sm:h-10 md:h-12 shaking-logo">
+                    <span class="text-blue-500 text-xs sm:text-sm md:text-base">Powered by Legacie</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
